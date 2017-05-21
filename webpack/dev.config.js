@@ -40,7 +40,7 @@ module.exports = webpackMerge(webpackCommon, {
             loader: 'css-loader',
             options: {
               importLoaders: 2,
-              modules: true,
+              modules: false,
               localIdentName: '[name]__[local]'
             }
           },
