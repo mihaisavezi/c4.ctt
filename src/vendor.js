@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import 'jquery';
 
-require('!!style-loader!css-loader!vex-js/dist/css/vex.css');
+import './vendor.scss';
 import 'vex-js';
 
 // polyfills and vendors
