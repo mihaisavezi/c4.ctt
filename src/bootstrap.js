@@ -4,7 +4,7 @@ import './app.scss';
 
 // classes you want to use immediately
 import { App } from './App/App';
-import { homepage } from './homepage';
+import { homepage } from './homepage.template';
 import * as vex from 'vex-js';
 
 // weird hack
