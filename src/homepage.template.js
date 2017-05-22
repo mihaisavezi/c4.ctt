@@ -2,7 +2,7 @@ import { issues } from './issues';
 
 let listItems = '';
 issues
-    .map(res => listItems += `<li class="f6 f5-ns b dib ph5 pv4 mr3 mb3 hover-black hover-bg-white bg-animate no-underline white ba br-pill b--white-40 fw4">${res.issue}</li>`);
+    .map((res, index) => listItems += `<li data-index="${index}" class="f6 f5-ns b dib ph5 pv4 mr3 mb3 hover-black hover-bg-white bg-animate no-underline white ba br-pill b--white-40 fw4">${res.issue}</li>`);
 
 export const homepage = `
 <div class="vh-100 dt w-100 tc bg-dark-gray white cover relative" style="background:  url(https://media.giphy.com/media/2pJfGles06wOk/giphy.gif) no-repeat center center fixed; ">
