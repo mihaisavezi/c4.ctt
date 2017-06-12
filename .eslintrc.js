@@ -173,7 +173,6 @@ module.exports = {
     "no-restricted-imports": "error",
     "no-restricted-modules": "error",
     "no-restricted-syntax": "error",
-    "no-return-assign": "error",
     "no-script-url": "error",
     "no-self-compare": "error",
     "no-sequences": "error",
@@ -203,10 +202,6 @@ module.exports = {
     "no-whitespace-before-property": "error",
     "no-with": "error",
     "object-curly-newline": "off",
-    "object-curly-spacing": [
-      "error",
-      "never"
-    ],
     "object-property-newline": [
       "error",
       {
