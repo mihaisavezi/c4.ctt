@@ -38,7 +38,7 @@ function main() {
         return 'white';
       }
     });
-  });
+  }, false);
 
   submitBtn.on('click', submitHandler);
 }
