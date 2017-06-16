@@ -17,3 +17,9 @@
 html {
   font-family: sans-serif;
 }
+
+.issue {
+  &:hover {
+    cursor: pointer;
+  }
+}
