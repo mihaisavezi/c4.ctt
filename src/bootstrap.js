@@ -10,7 +10,7 @@ import * as vex from 'vex-js';
 
 // weird hack
 window.$ = window.jQuery = require("jquery");
-var analytics = require('./analytics.js')
+let analytics = require('./analytics.js')
 
 function main() {
 
@@ -21,43 +21,52 @@ function main() {
   });
   app.render(homepage);
 
-  var problemList = $('.js-problem-list');
-  var submitBtn = $('.js-submit-items');
+  let problemList = $('.js-problem-list');
+  let submitBtn = $('.js-submit-items');
 
   vex.defaultOptions.className = 'vex-theme-os';
 
-  problemList.on('click', function (e) {
-
-    var $currentListItem = $(e.target);
-    $currentListItem.toggleClass(function () {
-      if ($(this).hasClass('white')) {
-        $(this).removeClass('white');
-        return 'black bg-white js-selected';
-      } else {
-        $(this).removeClass('bg-white js-selected');
-        return 'white';
-      }
-    });
-  }, false);
-
+  problemList.on('click', 'li', clickHandler);
   submitBtn.on('click', submitHandler);
+}
+
+function clickHandler(e) {
+  let $currentListItem = $(e.target);
+
+  $currentListItem.toggleClass(function () {
+    if ($(this).hasClass('white')) {
+      $(this).removeClass('white');
+      return 'black bg-white js-selected';
+    } else {
+      $(this).removeClass('bg-white js-selected');
+      return 'white';
+    }
+  });
+
+  let isSelected = $currentListItem.hasClass('js-selected') ? 'select' : 'deselect';
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Cause',
+    eventAction: `click-${isSelected}`,
+    eventLabel: `${currentListItem.text()}`
+  });
 }
 
 function submitHandler(e) {
   e.preventDefault();
 
-  var $selectedItems = $('.js-selected');
+  let $selectedItems = $('.js-selected');
   if ($selectedItems.length < 1) return;
 
-  var $selectedItemsText = Array.from($selectedItems).map(item => item.innerHTML).reduce((prev, curr) => prev + curr + ', ', '');
+  let selectedItemsText = $selectedItems.toArray().map(item => item.innerHTML).reduce((prev, curr) => prev + curr + ', ', '').trim();
   let response = handleResponse($selectedItems);
 
 
   ga('send', {
     hitType: 'event',
     eventCategory: 'Cause',
-    eventAction: 'click',
-    eventLabel: $selectedItemsText
+    eventAction: 'submit',
+    eventLabel: selectedItemsText
   });
 
   $.when().then(openModal.bind(null, response));
@@ -71,7 +80,7 @@ function handleResponse(items) {
   if (items.length > 1) {
     return multipleSelectionResponse;
   }
-  if (items.length === 1) {
+  else if (items.length === 1) {
     return issues[items.data('index')].responseText;
   }
 };
