@@ -3,10 +3,18 @@
 import './app.scss';
 
 // classes you want to use immediately
-import { App } from './App/App';
-import { homepage } from './homepage.template';
-import { issues } from './issues';
+import {
+  App
+} from './App/App';
+import {
+  homepage
+} from './homepage.template';
+import {
+  issues
+} from './issues';
+
 import * as vex from 'vex-js';
+import * as shepherd from 'tether-shepherd';
 
 // weird hack
 window.$ = window.jQuery = require("jquery");
@@ -21,6 +29,8 @@ function main() {
   });
   app.render(homepage);
 
+  startTour();
+
   let problemList = $('.js-problem-list');
   let submitBtn = $('.js-submit-items');
 
@@ -28,6 +38,32 @@ function main() {
 
   problemList.on('click', 'li', clickHandler);
   submitBtn.on('click', submitHandler);
+}
+
+function startTour() {
+  let tour = new shepherd.Tour({
+    defaults: {
+      classes: 'shepherd-theme-arrows z-3'
+    }
+  });
+
+  tour
+    .addStep('Selecteaza problema', {
+      title: 'Primul pas',
+      attachTo: '.list top',
+      text: 'Selecteaza una sau mai multe din problemele care nu te lasa sa dormi noaptea',
+    })
+    .addStep('Spune-ne', {
+      title: 'Al doilea pas',
+      attachTo: '.submitButton top',
+      text: 'Apoi transmite-le noua si iti vom putea spune ce poti face mai departe',
+      buttons: [{
+        text: 'Done',
+        action: tour.complete
+      }]
+    })
+
+  tour.start();
 }
 
 function clickHandler(e) {
@@ -48,7 +84,7 @@ function clickHandler(e) {
     hitType: 'event',
     eventCategory: 'Cause',
     eventAction: `click-${isSelected}`,
-    eventLabel: `${currentListItem.text()}`
+    eventLabel: `${$currentListItem.text()}`
   });
 }
 
@@ -56,7 +92,7 @@ function submitHandler(e) {
   e.preventDefault();
 
   let $selectedItems = $('.js-selected');
-  if ($selectedItems.length < 1) return;
+  if ($selectedItems.length < 1) return false;
 
   let selectedItemsText = $selectedItems.toArray().map(item => item.innerHTML).reduce((prev, curr) => prev + curr + ', ', '').trim();
   let response = handleResponse($selectedItems);
@@ -79,8 +115,7 @@ function handleResponse(items) {
 
   if (items.length > 1) {
     return multipleSelectionResponse;
-  }
-  else if (items.length === 1) {
+  } else if (items.length === 1) {
     return issues[items.data('index')].responseText;
   }
 };
@@ -107,8 +142,18 @@ function openModal(response) {
     appendLocation: 'body',
     overlayClassName: '',
     contentClassName: 'mw7',
-    closeClassName: ''
+    closeClassName: '',
+    callback: emptySelectedList()
   });
+}
+
+function emptySelectedList() {
+  let $selectedItems = $('.js-selected');
+
+  $selectedItems.each((idx, item) => {
+    $(item).removeClass('bg-white js-selected');
+    $(item).addClass('white');
+  })
 }
 
 document.addEventListener('DOMContentLoaded', main);

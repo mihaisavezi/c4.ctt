@@ -17,7 +17,7 @@ export const homepage = `
             <ul style="max-height: 20rem" class="list flex flex-wrap justify-center align-center items-center ph3 ph5-l pv4 mt3 mb3 vh-75 overflow-scroll js-problem-list">
                 ${listItems}
             </ul>
-            <div class="mt6 mb3 tc fixed left-0 right-0 margin center bottom-0 ">
+            <div class="submitButton mt6 mb3 tc fixed left-0 right-0 margin center bottom-0 ">
                 <a rel="nofollow" rel="noreferrer" class="f3 hover-black hover-bg-white bg-animate no-underline br2 ba ph5 pv3 mb2 dib white js-submit-items"
                     href="#0">Spune-ne</a>
             </div>
